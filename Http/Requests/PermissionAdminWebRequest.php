@@ -3,8 +3,9 @@
 namespace Litepie\User\Http\Requests;
 
 use App\Http\Requests\Request;
+use User;
 
-class RoleAdminRequest extends Request
+class PermissionAdminWebRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,30 +14,24 @@ class RoleAdminRequest extends Request
      */
     public function authorize(\Illuminate\Http\Request $request)
     {
-        $role = $this->route('role');
 
-// Determine if the user is authorized to access role role,
-        if (is_null($role)) {
-            return $request->user('admin.web')->canDo('package.role.view');
-        }
-
-// Determine if the user is authorized to create an entry.
+// Determine if the user is authorized to create an entry,
         if ($request->isMethod('POST') || $request->is('*/create')) {
-            return $request->user('admin.web')->can('create', $role);
+            return $request->user('admin.web')->canDo('user.permission.create');
         }
 
-// Determine if the user is authorized to update an entry.
+// Determine if the user is authorized to update an entry,
         if ($request->isMethod('PUT') || $request->isMethod('PATCH') || $request->is('*/edit')) {
-            return $request->user('admin.web')->can('update', $role);
+            return $request->user('admin.web')->canDo('user.permission.edit');
         }
 
-// Determine if the user is authorized to delete an entry.
+// Determine if the user is authorized to delete an entry,
         if ($request->isMethod('DELETE')) {
-            return $request->user('admin.web')->can('delete', $role);
+            return $request->user('admin.web')->canDo('user.permission.delete');
         }
 
-        // Determine if the user is authorized to view the role.
-        return $request->user('admin.web')->can('view', $role);
+        // Determine if the user is authorized to view the module.
+        return $request->user('admin.web')->canDo('user.permission.view');
     }
 
     /**
@@ -46,19 +41,18 @@ class RoleAdminRequest extends Request
      */
     public function rules(\Illuminate\Http\Request $request)
     {
-        $role = $this->route('role');
 
 // validation rule for create request.
         if ($request->isMethod('POST')) {
             return [
-                'name' => 'required|max:50|unique:roles',
+                'name' => 'required',
             ];
         }
 
 // Validation rule for update request.
         if ($request->isMethod('PUT') || $request->isMethod('PATCH')) {
             return [
-                //'name' => 'required|max:50|unique:roles,id,'.$role->getRouteKey()
+                'name' => 'required',
             ];
         }
 

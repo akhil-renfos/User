@@ -3,9 +3,8 @@
 namespace Litepie\User\Http\Requests;
 
 use App\Http\Requests\Request;
-use User;
 
-class UserAdminRequest extends Request
+class UserAdminWebRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
