@@ -442,6 +442,16 @@ class User
     }
 
     /**
+     * Returns all roles avilable .
+     *
+     * @return mixed
+     */
+    public function all()
+    {
+        return $this->user->all();
+    }
+
+    /**
      * Return the profile update page.
      *
      * @return Response
