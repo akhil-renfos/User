@@ -51,6 +51,16 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 			->take($count)
 			->get();
 	}
+	
+	 /**
+	 * List of users by type.
+	 *
+	 * @return string
+	 */
+	public function getUserByType($type) {
+		$users = $this->model->where('user_type', $type)->select('name','id as key')->get();
+		return $this->encriptArray($users, 'key');
+	}
 
 	public function getUserByRole() {
 		$users = $this->model->select('name','id as key')->get();
