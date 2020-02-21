@@ -347,5 +347,9 @@ class User
 
         return $this->user->getUserByRole();
     }
+    
+    public function getUserByType($type) {
+        return $this->user->getUserByType($type);
+    }
 
 }
